@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
 from calculate import main as calculate
+from fastapi.middleware.cors import CORSMiddleware
 import parse_input
 """
 Runs an API that takes American odds as input and serves results
@@ -8,6 +9,14 @@ as no-vig "fair odds"
 """
 
 app = FastAPI()
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.get("/novig")
 def get_no_vig(param1: str, param2: str):
     print(param1, param2)
